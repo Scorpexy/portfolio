@@ -1,0 +1,302 @@
+/*standard comment key: i only comment stuff which may be of interest, repetitive or basic stuff isn't commented*/
+:root{   /*wooo something that feels like home, this is sort of like defining variables, or the closest we can get in CSS*/
+  --bg:#0b0d12;
+  --surface:#0f1117;
+  --text:#e6eaf2;
+  --muted:#9aa3b2;
+  --brand:#6ee7ff;
+  --accent:#6c5ce7;
+  --ring:hsl(210 10% 30% / .6);
+  --border:hsl(220 16% 20% / .7);
+  --radius:18px;
+  --maxw:1100px;
+  --header-h:64px;
+  --space:clamp(16px, 2vw, 24px);
+
+  /*more reused visuals (no change in appearance) */
+  --grad-120:linear-gradient(120deg, var(--brand), var(--accent));
+  --grad-135:linear-gradient(135deg, var(--brand), var(--accent));
+}
+
+*{ box-sizing:border-box }
+html,body{ height:auto }
+
+body{
+  margin:0;
+  font-family:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(1200px 600px at 70% -200px, #1a1f2e 10%, transparent 60%),
+    var(--bg);
+  line-height:1.5;
+}
+
+/* Links */
+a{ color:inherit; text-decoration:none }
+a:hover{ text-decoration:underline; text-underline-offset:2px }
+
+/*this is header stuff (the bit that has all the home buttons and stuff)*/
+.top-border-shell{
+  position:fixed; inset:0 0 auto;
+  z-index:50;    /*z-indexes are a pest but useful, just controls layering and stuff*/
+  padding:var(--space); /*uses the standard space for padding as defined in root*/
+  backdrop-filter:blur(6px);
+  transform:translateY(0);
+  transition:transform .35s ease;
+}
+.top-border-shell.hide{
+  transform:translateY(calc(-1 * (var(--header-h) + var(--space)*2)));
+}
+
+.top-border-card{
+  height:var(--header-h);
+  display:flex; align-items:center; justify-content:space-between; gap:var(--space);
+  max-width:var(--maxw); margin:0 auto; padding:0 var(--space);
+  border:1px solid var(--border); border-radius:9999px;
+  background:color-mix(in oklab, var(--surface) 70%, transparent);
+  box-shadow:
+    0 0 0 1px var(--ring) inset,
+    0 10px 30px -20px rgba(0,0,0,.6);
+  transition:box-shadow .25s ease, background .25s ease, border-color .25s ease;
+}
+
+/* Stronger shadow on scroll (no visual change elsewhere) */
+.scrolled .top-border-card{
+  background:color-mix(in oklab, var(--surface) 85%, transparent);
+  box-shadow:
+    0 0 0 1px var(--ring) inset,
+    0 12px 40px -18px rgba(0,0,0,.65);
+}
+
+/* Brand mark */
+.brand{
+  padding:6px 12px;
+  color:var(--brand);
+  font-weight:700; letter-spacing:.06em;
+  border:1px solid var(--border); border-radius:9999px;
+}
+
+/* Header nav */
+.top-border-card nav{ display:flex; gap:clamp(10px, 3vw, 22px) }
+.top-border-card nav a{
+  padding:8px 10px; border-radius:10px; color:var(--muted);
+}
+.top-border-card nav a:hover{
+  color:var(--text);
+  background:rgba(255,255,255,.04);
+  text-decoration:none;
+}
+
+/*the next bits are part of the "hero", which in essence is the first part people see, so i the 2nd most effort into this part, the most effort was put into the Contact part!*/
+#hero{
+  min-height:calc(100svh - var(--header-h) - var(--space)*2);
+  display:grid; place-items:center;
+  max-width:var(--maxw); margin:0 auto;
+  padding:12vh var(--space) 18vh;
+  text-align:center;
+  position:relative; z-index:1; /*Fun Fact! I initially had a bubbles feature but eventually scrapped them due to having difficulties of them breaking my page; so this is a husk of their placement where I was going mad with z-indexes!*/
+}
+
+#hero .eyebrow{
+  margin:0 0 12px;
+  color:var(--muted);   /*fits with my standard colour scheme which i setup in root!!*/
+  font-size:clamp(.9rem, 1.5vw, 1rem);
+  letter-spacing:.08em; text-transform:uppercase;
+}
+
+#hero h1{
+  margin:0 0 10px;
+  font-size:clamp(2rem, 6vw, 4rem);
+  line-height:1.05; letter-spacing:-.02em;
+}
+/*different parts of the hero being customised, using classes*/
+#hero .subtitle{
+  max-width:52ch; margin:0 auto 28px;
+  font-size:clamp(1rem, 2vw, 1.15rem);
+  color:var(--muted);
+}
+
+/*this is part of a call to action, just encourages the user, (YOU!) to press it or intersct*/
+#hero .cta{ display:flex; justify-content:center; flex-wrap:wrap; gap:12px }
+#hero .cta a{
+  display:inline-block; padding:12px 16px;
+  border:1px solid var(--border); border-radius:var(--radius);
+  background:#121523;
+}
+#hero .cta a:first-child{
+  background:var(--grad-135);
+  color:#0a0c12; border-color:transparent; font-weight:600;
+}
+#hero .cta a:hover{   /*i.e. "when hovered do this"*/
+  transform:translateY(-1px);
+  box-shadow:0 8px 24px -16px rgba(0,0,0,.8);
+  text-decoration:none;
+}
+
+/*this is a really cool gradient i used to design by name as an eyecatcher, using different shades of blue and purple*/
+.headline{
+  --g1:#6ee7ff; --g2:#6c5ce7; --g3:#8be9a8;
+  background:linear-gradient(120deg, var(--g1), var(--g2), var(--g3));
+  background-size:200% 200%;
+  -webkit-background-clip:text; background-clip:text;
+  color:transparent;
+  animation:hueShift 7s ease-in-out infinite;
+}
+
+/*just makes everything to do with the hero on top*/
+#hero .eyebrow, #hero .headline, #hero .subtitle, #hero .cta{ position:relative; z-index:2 }
+
+/*was going to remove this, but this is yet another cool relic of the scrapped bubble feature*/
+.bubbles{ display:none !important }
+
+/*i was wondering how to make my site accessible in an interesting way, this checks if the device's OS has decreased motion settings for those with motion sickness or epilepsy*/
+
+/*so consider my site wholly accessible*/
+@media (prefers-reduced-motion: reduce){
+  .headline{ animation:none }
+}
+
+/*this is way shorter than I thought it'd be, this just ensures the smooth scrolling when the button is pressed and he site is navigated so the section*/
+html{ scroll-behavior:smooth }
+@media (max-width:560px){
+  .top-border-card{ padding:0 12px }
+  .top-border-card nav a{ padding:6px 8px }
+}
+
+/*this just very slightly shifts the gradient of the site*/
+@keyframes hueShift{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/*yet another relic of bubbles' past*/
+section, footer{ position:relative; z-index:1 }
+
+/*controls the actual "look" of the glowing mouse*/
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  pointer-events:none;
+  background:radial-gradient(
+    600px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255,255,255,.08),
+    transparent 70%
+  );
+  transition:background .2s ease-out;
+  mix-blend-mode:screen;
+  z-index:0;
+}
+
+/* Offset scroll to avoid header overlap */
+:target{ scroll-margin-top:calc(var(--header-h) + var(--space) * 1.5) }
+
+/*this is a very large chunk of the sight, the actual main body text!, all is basically just reusing code in all honesty*/
+section{
+  max-width:var(--maxw); margin:0 auto var(--space);
+  padding:calc(var(--space) * 2);
+  border:1px solid var(--border); border-radius:var(--radius);
+  background:color-mix(in oklab, var(--surface) 90%, transparent);
+  box-shadow:0 15px 40px -25px rgba(0,0,0,.6);
+  backdrop-filter:blur(8px);
+}
+section h2{
+  margin:0 0 var(--space);
+  font-size:clamp(1.6rem, 3vw, 2.2rem);
+  background:var(--grad-120);
+  -webkit-background-clip:text; background-clip:text;  /*web-kit bit ensure this works everywhere*/
+  color:transparent;
+}
+section p{  /*gives breathing room for the paragraph teext*/
+  margin:0 0 1em;
+  color:var(--muted); line-height:1.7;
+}
+section + section{  /*keeps content comfortably spaced*/
+  margin-top:calc(var(--space) * 3);
+  border-top:1px solid var(--border);
+  padding-top:calc(var(--space) * 2);
+}
+
+/*the hefty contact section (which i loved doing)*/
+#contact{
+  max-width:var(--maxw);
+  margin:0 auto;
+  padding:calc(var(--space)*2);
+}
+#contact .section-head{ text-align:left; margin-bottom:var(--space) }
+#contact h2{  /*customises text again!*/
+  margin:0 0 .4rem;
+  font-size:clamp(1.8rem, 3vw, 2.4rem);
+  background:var(--grad-120);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+#contact .section-head p{ margin:0 0 var(--space); color:var(--muted) }
+
+.contact-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+  gap:calc(var(--space) * 1.1);
+}
+
+/* Card: fewer effects, same feel */
+.contact-card{
+  display:flex; align-items:center; gap:12px;
+  padding:16px 18px;
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:var(--surface);
+  box-shadow:0 10px 24px -18px rgba(0,0,0,.6);
+  text-decoration:none;
+  transition:transform .15s ease, border-color .15s ease;
+}
+.contact-card:hover{  /*on hover do this...*/
+  transform:translateY(-2px);
+  border-color:var(--brand);
+}
+
+/*contact card stuff*/
+.c-icon{    /*circular item container*/
+  display:grid; place-items:center;
+  width:40px; height:40px; border-radius:50%;
+  background:var(--grad-135);
+  color:#0a0c12;
+}
+.c-info h3{ margin:0; font-size:1.02rem }
+.c-info p{ margin:.15rem 0 0; color:var(--muted); font-size:.95rem }
+
+/*pill design*/
+.contact-actions{
+  display:flex; gap:10px;
+  margin-top:calc(var(--space) * 1.1);
+}
+.copy-pill{
+  appearance:none; cursor:pointer; /*lets cursor change so user knows they can click*/
+  padding:10px 14px;
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:9999px;  /*you may have seen this a lot, just makes a perfect oval*/
+  background:var(--surface);
+  transition:transform .12s ease, border-color .12s ease;
+}
+.copy-pill:hover{ transform:translateY(-1px); border-color:var(--brand) }
+.copy-pill.alt{ display:inline-block; text-decoration:none }
+
+/* Social row: lighter hover */
+.social-row{ display:flex; gap:12px; margin-top:10px }
+.social-row a{
+  display:grid; place-items:center;
+  width:36px; height:36px; border-radius:50%;
+  background:var(--surface);
+  border:1px solid var(--border);
+  text-decoration:none;
+  transition:transform .12s ease, border-color .12s ease;
+}
+.social-row a:hover{
+  transform:translateY(-1px);
+  border-color:var(--brand);
+}
+
+
+
+/*my least favourite part of the project, which coincidentally was the longest bit; everything is so fiddly and creative*/
